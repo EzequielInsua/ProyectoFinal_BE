@@ -1,42 +1,25 @@
 const express = require('express');
-const app = express();
-const routerProducts = require('./products.js');
-const PORT = 8080;
-const handlebars = require('express-handlebars');
+const bp = require('body-parser')
 
+const routerProducts = require('./router/productsR.js');
+const routerCarrito = require('./routes/cartsR.js');
+
+const PORT = process.env.PORT || 8080;
+const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded( { extended: true } ));
-app.use('/api', routerProducts);
+app.use(bp.json())
+app.use(bp.urlencoded({ extended: true }))
+app.use('/productos', routerProducts);
+app.use('/carrito', routerCarrito);
 
-const ENGINE = 'hbs';
-// const ENGINE = 'pug';
-// const ENGINE = 'ejs';
-
-
-
-if (ENGINE === 'hbs') {
-    app.engine(
-        "hbs",
-        handlebars.engine({
-            extname: ".hbs",
-            defaultLayout: "index.hbs",
-            layoutsDir: __dirname + '/views/layouts',
-            partialsDir: __dirname + '/views/partials'
-        }),
-    )
-    app.set('view engine', 'hbs');
-    app.set('views', './views');
-    app.use(express.static('public'));
-}else if(ENGINE === 'pug'){
-    app.set("views", "./views");
-    app.set("view engine", "pug");
-}else{
-    app.set("view engine", "ejs");
-}
+app.get('*', (req, res) => {
+    return res.status(404).send({error: true, message:'Path not found'});    
+});
 
 const server = app.listen(PORT, ()=>{
-    console.log(`Listening on port ${PORT}`);
+    console.log(`Listening on port ${ PORT }`);
 });
 
 server.on( "Error", error => console.log(`Error while listening on port ${PORT}: ${error}`) );
