@@ -87,7 +87,7 @@ module.exports = class Container {
                     if (a.id > b.id) { return 1 }
                     if (a.id < b.id) { return -1 }
                 });
-                await this.saveFile(JSON.stringify(products));
+                await this.saveFile(products);
             } else {
                 return null;
             }
@@ -103,7 +103,7 @@ module.exports = class Container {
                     console.error(`Error al leer el archivo: ${error.message}`);
                     reject(error);
                 }
-                resolve(JSON.parse(data));
+                resolve(data);
             });
         })
     }

@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const controller = require('../controllers/carts.js');
-const { adminAuth } = require("../middlewares/middlewares");
+const { completedFields, adminAuth } = require("../middlewares/middlewares");
 
 //? CART
 
