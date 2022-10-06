@@ -1,4 +1,4 @@
-const container = require('../models/container.js');
+const container = require('../models/products.js');
 
 const productFile = 'data/products.json';
 const productElement = new container(productFile);
